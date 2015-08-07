@@ -6,6 +6,7 @@ cmd
   .usage('[options] <url>')
   .version(require('./package.json').version)
   .option('--auth <user:pass>', 'basic auth if sitemon instance is protected')
+  .option('-d, --daemon', 'start as a daemon, post every 5 mins')
   .description('start the sitemon agent')
 
 cmd.parse(process.argv);
@@ -72,8 +73,11 @@ if (!url) throw new Error('url is required param');
       if (resp.statusCode != 200) {
         console.error(new Date(), 'unknown status', resp.statusCode, body);
       }
-      else console.log(new Date(), 'post ok');
-      setTimeout(doPost, 60000 * 5);
+      else if (cmd.daemon) {
+        console.log(new Date(), 'post ok');
+      }
+      if (cmd.daemon) setTimeout(doPost, 60000 * 5);
+      else process.exit();
     });
   });
 })();
