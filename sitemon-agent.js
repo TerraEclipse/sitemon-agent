@@ -3,7 +3,7 @@ var cmd = require('commander')
   , request = require('request')
 
 cmd
-  .usage('sitemon-agent [options] <url>')
+  .usage('[options] <url>')
   .version(require('./package.json').version)
   .option('--auth <user:pass>', 'basic auth if sitemon instance is protected')
   .description('start the sitemon agent')
